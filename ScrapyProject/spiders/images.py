@@ -8,7 +8,7 @@ from ScrapyProject.items import ImagesItem
 class ImagesSpider(scrapy.Spider):
     name = 'images'
     allowed_domains = ['www.aitaotu.com']
-    start_urls = ['https://www.aitaotu.com/tag/gaogenxie.html']
+    start_urls = ['https://www.aitaotu.com/weimei/']
 
     headers = {
         "HOST": "www.aitaotu.com",
