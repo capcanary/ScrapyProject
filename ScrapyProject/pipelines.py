@@ -25,7 +25,6 @@ class ArticleImagePipeline(ImagesPipeline):
 
 
 class MysqlPipeline(object):
-    #采用同步的机制写入mysql
     def __init__(self):
         self.conn = MySQLdb.connect('127.0.0.1', 'root', 'root', 'jobbole_article', charset="utf8", use_unicode=True)
         self.cursor = self.conn.cursor()
@@ -50,7 +49,6 @@ class MysqlPipeline(object):
         return item
 
 class MyImagesPipeline(ImagesPipeline):
-    # 获取settings文件里设置的变量值
     IMAGES_STORE = get_project_settings().get("IMAGES_STORE")
     headers = {
         "HOST": "www.aitaotu.com",
@@ -63,14 +61,9 @@ class MyImagesPipeline(ImagesPipeline):
         for image_url in item['image_urls']:
             yield scrapy.Request(image_url, headers=self.headers)
 
-    def item_completed(self, result, item, info):
-        #提取图片下载路径
+    def item_completed(self, result, item, info)
         image_path = [value["path"] for ok, value in result if ok]
-
-        # 定义分类保存的最终路径
         img_path = "%s\%s" % (self.IMAGES_STORE, item['title'])
-
-        # 目录不存在则创建目录
         if os.path.exists(img_path) == False:
             os.mkdir(img_path)
         # 将文件从默认下路路径移动到指定路径下
